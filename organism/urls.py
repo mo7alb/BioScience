@@ -8,5 +8,5 @@ urlpatterns= [
 
    # api paths
    # server protein api path
-   path('api/proteins', api.Proteins, name="proteins")
+   path('api/proteins', api.ProteinList.as_view(), name="proteins")
 ]
