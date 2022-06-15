@@ -4,13 +4,13 @@ from rest_framework import serializers
 class PfamSerializer(serializers.ModelSerializer):
    class Meta:
       model = Pfam
-      fields = ['pfam_description']
+      fields = ['domain_id', 'domain_description']
 
 class DomainSerializer(serializers.ModelSerializer):
    pfam = PfamSerializer()
    class Meta:
       model = Domain
-      fields = '__all__'
+      fields = ['description', 'start_coordinate','end_coordinate', 'pfam']
 
 class TaxonomySerializer(serializers.ModelSerializer):
    class Meta:

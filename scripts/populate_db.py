@@ -124,7 +124,7 @@ taxonomy_rows = {}
    add pfam data from the csv data file to the database
 """
 for data in pfams:
-   row = Pfam.objects.create(pfam_description=data[1])
+   row = Pfam.objects.create(domain_id=data[0],domain_description=data[1])
    row.save()
    pfam_rows[data[0]] = row
 print("Successfully added data to the Pfam table")
