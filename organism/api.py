@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from .serializers import *
 from .models import *
 
-class Protein(GenericAPIView):
+class ProteinDetail(GenericAPIView):
    queryset = Protein.objects.all()
    serializer_class = ProteinSerializer
 
@@ -36,4 +36,21 @@ class Pfam(GenericAPIView):
    def get(self, request, pfam_id, format="json"):
       pfam = self.queryset.get(domain_id=pfam_id)
       serializer = PfamSerializer(pfam)
+      return Response(serializer.data)
+
+class Proteins(GenericAPIView):
+   queryset = Protein.objects.all()
+   serializer_class = ProteinsSerializer
+
+   def get_object(self, pk):
+      return self.queryset.get(id=pk)
+
+   def get(self, request, taxa_id, format="json"):
+      tax = Taxonomy.objects.get(taxa_id=taxa_id)
+
+      relationList = ProteinTaxonomyLink.objects.filter(taxonomy=tax)
+      proteins = []
+      for relation in relationList:
+         proteins.append(self.get_object(relation.protein.id))
+      serializer = ProteinsSerializer(proteins, many=True)
       return Response(serializer.data)

@@ -7,7 +7,7 @@ class Pfam(models.Model):
    def __str__(self) -> str:
       return self.pfam_description
 class Domain(models.Model):
-   domain_id = models.CharField(null=False, max_length=10, primary_key=True, default="")
+   domain_id = models.CharField(null=False, max_length=10, default="")
    description = models.CharField(null=False, blank=False, max_length=200)
    start_coordinate = models.IntegerField(null=False, blank=False)
    end_coordinate = models.IntegerField(null=False, blank=False)
@@ -17,7 +17,7 @@ class Domain(models.Model):
       return self.description
 
 class Taxonomy(models.Model):
-   taxa_id = models.IntegerField(blank=False, null=False, primary_key=True, default="")
+   taxa_id = models.IntegerField(blank=False, null=False, default="")
    clade = models.CharField(max_length=1, null=False, blank=False, default='E')
    genus = models.CharField(max_length=40, null=False, blank=False)
    species = models.CharField(max_length=40, null=False, blank=False)
@@ -26,7 +26,7 @@ class Taxonomy(models.Model):
       return "{0} : {1}".format(self.genus, self.species)
 
 class Protein(models.Model):
-   protein_id = models.CharField(max_length=11, primary_key=True, null=False, blank=False, default="")
+   protein_id = models.CharField(max_length=11, null=False, blank=False, default="")
    sequence = models.CharField(null=False, blank=False, max_length=32760)
    length = models.IntegerField(null=False, blank=False)
    domains = models.ManyToManyField(Domain, through="ProteinDomainLink")
