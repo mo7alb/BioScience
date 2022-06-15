@@ -4,7 +4,7 @@ from rest_framework import serializers
 class PfamSerializer(serializers.ModelSerializer):
    class Meta:
       model = Pfam
-      fields = '__all__'
+      fields = ['pfam_description']
 
 class DomainSerializer(serializers.ModelSerializer):
    pfam = PfamSerializer()
