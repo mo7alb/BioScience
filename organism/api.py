@@ -80,3 +80,30 @@ class PfamList (GenericAPIView):
       serializer = PfamListSerializer(domains, many=True)
 
       return Response(serializer.data)
+
+class Coverage(GenericAPIView):
+   queryset = Domain.objects.all()
+   serializer_class = CoverageSerializer
+
+   def get_object(self, pk):
+      return self.queryset.get(id=pk)
+
+   def get (self, request, protein_id, format="json"):
+      protein = Protein.objects.get(protein_id=protein_id)
+
+      relations = ProteinDomainLink.objects.filter(protein=protein)
+      domains = []
+      for relation in relations:
+         domains.append(self.get_object(relation.domain.id))
+
+      serializer = CoverageSerializer(domains, many=True)
+      values = serializer.data
+
+      coverage = 0
+      for value in values:
+         coverage += value['end_coordinate']
+         coverage -= value['start_coordinate']
+
+      coverage /= protein.length
+
+      return Response({ "coverage": coverage  })

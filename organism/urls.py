@@ -12,4 +12,5 @@ urlpatterns= [
    path('api/pfam/<str:pfam_id>', api.PfamDetails.as_view(), name="pfam_details"),
    path('api/proteins/<int:taxa_id>', api.ProteinList.as_view(), name="protein_list"),
    path('api/pfams/<int:taxa_id>', api.PfamList.as_view(), name="pfam_list"),
+   path('api/coverage/<str:protein_id>', api.Coverage.as_view(), name="domain_coverage")
 ]

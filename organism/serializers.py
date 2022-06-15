@@ -35,3 +35,8 @@ class PfamListSerializer (serializers.ModelSerializer):
    class Meta:
       model = Domain
       fields = ['id', 'pfam']
+
+class CoverageSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = Domain
+      fields = ["start_coordinate", "end_coordinate"]
