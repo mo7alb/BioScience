@@ -18,14 +18,20 @@ class TaxonomySerializer(serializers.ModelSerializer):
       model = Taxonomy
       fields = '__all__'
 
-class ProteinSerializer(serializers.ModelSerializer):
+class ProteinDetialSerializer(serializers.ModelSerializer):
    domains = DomainSerializer(many=True)
    taxonomy = TaxonomySerializer(many=True)
    class Meta:
       model = Protein
       fields = '__all__'
 
-class ProteinsSerializer(serializers.ModelSerializer):
+class ProteinsListSerializer(serializers.ModelSerializer):
    class Meta:
       model = Protein
       fields = ["id", "protein_id"]
+
+class PfamListSerializer (serializers.ModelSerializer):
+   pfam = PfamSerializer()
+   class Meta:
+      model = Domain
+      fields = ['id', 'pfam']

@@ -7,7 +7,7 @@ from .models import *
 
 class ProteinDetail(GenericAPIView):
    queryset = Protein.objects.all()
-   serializer_class = ProteinSerializer
+   serializer_class = ProteinDetialSerializer
 
    def get_object(self, pk):
       try:
@@ -17,11 +17,11 @@ class ProteinDetail(GenericAPIView):
 
    def get(self, request, protein_id, format="json"):
       protein = self.get_object(protein_id)
-      serializer = ProteinSerializer(protein)
+      serializer = ProteinDetialSerializer(protein)
       return Response(serializer.data)
 
    def post (self, request, format="json"):
-      serializer = ProteinSerializer(data=request.data)
+      serializer = ProteinDetialSerializer(data=request.data)
 
       if serializer.is_valid():
          serializer.save()
@@ -29,7 +29,7 @@ class ProteinDetail(GenericAPIView):
 
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class Pfam(GenericAPIView):
+class PfamDetails(GenericAPIView):
    queryset = Pfam.objects.all()
    serializer_class = PfamSerializer
 
@@ -38,9 +38,9 @@ class Pfam(GenericAPIView):
       serializer = PfamSerializer(pfam)
       return Response(serializer.data)
 
-class Proteins(GenericAPIView):
+class ProteinList(GenericAPIView):
    queryset = Protein.objects.all()
-   serializer_class = ProteinsSerializer
+   serializer_class = ProteinsListSerializer
 
    def get_object(self, pk):
       return self.queryset.get(id=pk)
@@ -52,5 +52,31 @@ class Proteins(GenericAPIView):
       proteins = []
       for relation in relationList:
          proteins.append(self.get_object(relation.protein.id))
-      serializer = ProteinsSerializer(proteins, many=True)
+      serializer = ProteinsListSerializer(proteins, many=True)
+      return Response(serializer.data)
+
+class PfamList (GenericAPIView):
+   queryset = Domain.objects.all()
+   serializer_class = PfamListSerializer
+
+   def get_object(self, pk):
+      return self.queryset.get(id=pk)
+
+   def get(self, request, taxa_id, format="json"):
+      tax = Taxonomy.objects.get(taxa_id=taxa_id)
+
+      relationList = ProteinTaxonomyLink.objects.filter(taxonomy=tax)
+
+      domains = []
+
+      for relation in relationList:
+         protein = Protein.objects.get(id=relation.protein.id)
+         protein_domain = ProteinDomainLink.objects.filter(protein=protein)
+
+         for domain in protein_domain:
+            domains.append(self.get_object(domain.domain.id))
+
+
+      serializer = PfamListSerializer(domains, many=True)
+
       return Response(serializer.data)
