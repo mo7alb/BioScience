@@ -171,8 +171,8 @@ for (taxa_id, organism_data) in taxonomy.items():
          if string.endswith("."):
             contains_period = True
             index = scientific_name.index(string)
-            genus = " ".join(scientific_name[0: index])
-            species = " ".join(scientific_name[index:])
+            genus = " ".join(scientific_name[0: index + 1])
+            species = " ".join(scientific_name[index + 1:])
             break
       
       if contains_period == False:
