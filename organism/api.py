@@ -20,7 +20,7 @@ class ProteinDetail(GenericAPIView):
       serializer = ProteinDetialSerializer(protein)
       return Response(serializer.data)
 
-   def post (self, request, format="json"):
+   def post (self, request, protein_id, format="json"):
       serializer = ProteinDetialSerializer(data=request.data)
 
       if serializer.is_valid():

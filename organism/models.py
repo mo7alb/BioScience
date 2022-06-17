@@ -1,7 +1,7 @@
 from django.db import models
 
 class Pfam(models.Model):
-   domain_id = models.CharField(null=False, max_length=10, default="")
+   domain_id = models.CharField(null=False, max_length=15, default="")
    domain_description = models.CharField(blank=False, null=False, max_length=200)
    
    def __str__(self) -> str:

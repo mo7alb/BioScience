@@ -11,7 +11,7 @@ class DomainSerializer(serializers.ModelSerializer):
    pfam = PfamSerializer()
    class Meta:
       model = Domain
-      fields = ['description', 'start_coordinate','end_coordinate', 'pfam']
+      fields = ['id', 'description', 'start_coordinate','end_coordinate', 'pfam']
 
 class TaxonomySerializer(serializers.ModelSerializer):
    class Meta:
@@ -24,6 +24,26 @@ class ProteinDetialSerializer(serializers.ModelSerializer):
    class Meta:
       model = Protein
       fields = '__all__'
+   
+   def create(self, validated_data):
+      taxonmy_data = self.initial_data.get('taxonomy')
+      domains_data = self.initial_data.get('domains')
+      
+      pro = Protein(
+         protein_id=validated_data['protein_id'],
+         sequence=validated_data['sequence'],
+         length=validated_data['length'],
+      )
+
+      pro.save()
+
+      for tax in taxonmy_data:
+         pro.taxonomy.add(Taxonomy.objects.get(id=tax['id']))
+      
+      for domain in taxonmy_data:
+         pro.domains.add(Domain.objects.get(id=domain['id']))
+
+      return pro
 
 class ProteinsListSerializer(serializers.ModelSerializer):
    class Meta:

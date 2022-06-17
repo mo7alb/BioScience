@@ -1,5 +1,5 @@
 // div element in which the contents of all the pages are to rendered
-const rootElement = document.getElementById("root");
+var rootElement = document.getElementById("root");
 
 /**
  * Displays content of the home page
@@ -8,7 +8,7 @@ const rootElement = document.getElementById("root");
 function Home() {
    rootElement.innerHTML = "";
 
-   const heading = setUpElement("h2", ["text-center"], "Home page");
+   var heading = setUpElement("h2", ["text-center"], "Home page");
    appendChild(heading, rootElement);
 }
 
@@ -19,7 +19,7 @@ function Home() {
 function Proteins() {
    rootElement.innerHTML = "";
 
-   const heading = setUpElement("h2", ["text-center"], "Proteins page");
+   var heading = setUpElement("h2", ["text-center"], "Proteins page");
    appendChild(heading, rootElement);
 }
 
@@ -30,6 +30,6 @@ function Proteins() {
 function Pfams() {
    rootElement.innerHTML = "";
 
-   const heading = setUpElement("h2", ["text-center"], "Pfams page");
+   var heading = setUpElement("h2", ["text-center"], "Pfams page");
    appendChild(heading, rootElement);
 }
