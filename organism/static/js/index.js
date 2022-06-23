@@ -6,10 +6,6 @@ function navigate(component) {
    if (component == "home") {
       Home();
    }
-   if (component == "proteins") {
-      Proteins();
-   }
-   if (component == "pfams") {
-      Pfams();
+   if (component == "newProtein") {
    }
 }

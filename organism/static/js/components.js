@@ -3,39 +3,13 @@
  * @returns {void} Nothing
  */
 function Home() {
-   // get the root element
-   var rootElement = document.getElementById("root");
    // clear the content of the root element if there is any
-   if (rootElement.innerHTML !== "") rootElement.innerHTML = "";
+   clearRoot();
 
    // create title for the page
-   var title = setUpTitle("h2", ["text-center"], "Home page");
+   var title = setUpTitle("h2", "Home page");
    // add title to the page
-   appendChild(title, rootElement);
-}
-
-/**
- * Displays content of the Proteins page
- * @returns {void} Nothing
- */
-function Proteins() {
-   var rootElement = document.getElementById("root");
-   rootElement.innerHTML = "";
-
-   var title = setUpTitle("h2", ["text-center"], "Proteins page");
-   appendChild(title, rootElement);
-}
-
-/**
- * Displays content of the pfams page
- * @returns {void} Nothing
- */
-function Pfams() {
-   var rootElement = document.getElementById("root");
-   rootElement.innerHTML = "";
-
-   var title = setUpTitle("h2", ["text-center"], "Pfams page");
-   appendChild(title, rootElement);
+   appendToRoot(title);
 }
 
 /**
@@ -46,19 +20,17 @@ function Pfams() {
  * @param {String} species
  */
 function ShowTaxonomy(taxa_id, clade, genus, species) {
-   // get the root element
-   var rootElement = document.getElementById("root");
    // clear the content of the root element if there is any
-   if (rootElement.innerHTML !== "") rootElement.innerHTML = "";
+   clearRoot();
 
    // create title for the page
-   var title = setUpTitle("h2", ["text-center"], "Home page");
+   var title = setUpTitle("h2", "Home page");
    // add title to the page
-   appendChild(title, rootElement);
+   appendToRoot(title);
 
    // display taxonomy data through a table
    var taxonomyTable = createTaxonomyTable({ taxa_id, clade, genus, species });
-   appendChild(taxonomyTable, rootElement);
+   appendToRoot(taxonomyTable);
 
    // a div to hold all the buttons
    var buttonDiv = document.createElement("div");
@@ -70,25 +42,19 @@ function ShowTaxonomy(taxa_id, clade, genus, species) {
    );
 
    // a button to fetch all proteins of the taxonomy
-   var proteinButton = document.createElement("button");
-   proteinButton.classList.add("btn", "btn-dark", "w-75", "mb-2");
-   proteinButton.textContent = "Show all taxonomy proteins";
-   proteinButton.onclick = function () {
+   var proteinButton = Button("Show all taxonomy proteins", false, function () {
       TaxonomyProteins({ taxa_id, clade, genus, species });
-   };
+   });
    appendChild(proteinButton, buttonDiv);
 
    // a button to fetch all pfams of the taxonomy
-   var pfamButton = document.createElement("button");
-   pfamButton.classList.add("btn", "btn-dark", "w-75");
-   pfamButton.textContent = "Show all taxonomy pfams";
-   pfamButton.onclick = function () {
+   var pfamButton = Button("Show all taxonomy pfams", false, function () {
       TaxonomyPfams({ taxa_id, clade, genus, species });
-   };
+   });
    appendChild(pfamButton, buttonDiv);
 
    // add the div to the root element
-   appendChild(buttonDiv, rootElement);
+   appendToRoot(buttonDiv);
 }
 
 /**
@@ -96,15 +62,13 @@ function ShowTaxonomy(taxa_id, clade, genus, species) {
  * @param {Object} taxonomy Taxomony of which the data is to be displayed
  */
 function TaxonomyProteins(taxonomy) {
-   // get the root element
-   var rootElement = document.getElementById("root");
    // clear the content of the root element if there is any
-   if (rootElement.innerHTML !== "") rootElement.innerHTML = "";
+   clearRoot();
 
    // create title for the page
-   var title = setUpTitle("h2", ["text-center"], "Proteins");
+   var title = setUpTitle("h2", "Proteins");
    // add title to the page
-   appendChild(title, rootElement);
+   appendToRoot(title);
 
    // display taxonomy data through a table
    var taxonomyTable = createTaxonomyTable({
@@ -113,7 +77,7 @@ function TaxonomyProteins(taxonomy) {
       genus: taxonomy.genus,
       species: taxonomy.species,
    });
-   appendChild(taxonomyTable, rootElement);
+   appendToRoot(taxonomyTable);
 
    // a div to hold all the buttons
    var buttonDiv = document.createElement("div");
@@ -126,31 +90,25 @@ function TaxonomyProteins(taxonomy) {
    );
 
    // a button to fetch all proteins of the taxonomy
-   var proteinButton = document.createElement("button");
-   proteinButton.classList.add("btn", "btn-dark", "w-75", "mb-2");
-   proteinButton.textContent = "Show all taxonomy proteins";
-   proteinButton.onclick = function () {
+   var proteinButton = Button("Show all taxonomy proteins", false, function () {
       TaxonomyProteins(taxonomy);
-   };
+   });
    appendChild(proteinButton, buttonDiv);
 
    // a button to display a component that displays
    // list of pfams
-   var pfamButton = document.createElement("button");
-   pfamButton.classList.add("btn", "btn-dark", "w-75");
-   pfamButton.textContent = "Show all taxonomy pfams";
-   pfamButton.onclick = function () {
+   var pfamButton = Button("Show all taxonomy pfams", false, function () {
       TaxonomyPfams(taxonomy);
-   };
+   });
    appendChild(pfamButton, buttonDiv);
 
    // add the div to the root element
-   appendChild(buttonDiv, rootElement);
+   appendToRoot(buttonDiv);
 
    // create a subtitle for the table of proteins
-   var subTitle = setUpTitle("h4", ["text-center"], "Protein List");
+   var subTitle = setUpTitle("h4", "Protein List");
    // append the subtitle to the root element
-   appendChild(subTitle, rootElement);
+   appendToRoot(subTitle);
 
    // url from which the proteins list is to be fetched
    var url = "/api/proteins/" + taxonomy.taxa_id;
@@ -166,67 +124,44 @@ function TaxonomyProteins(taxonomy) {
  * @param {Object} error error occured while fetching data
  */
 function DisplayProteinList(data, error) {
-   // root element to which every thing is to be rendered
-   var rootElement = document.getElementById("root");
-
    // handle error if any occur
    if (error !== null) {
-      appendChild(handleError(error), rootElement);
+      appendToRoot(handleError(error));
       return;
    }
-
-   // create a table to display list of proteins
-   var dataTable = document.createElement("table");
 
    // create a table header
    var tableHeader = document.createElement("thead");
    // specify the content of the header row
    var row = createTableRow(true, [{ content: "Protein id" }, { content: "" }]);
-
    // append the row to the header element and the header element to the table
    appendChild(row, tableHeader);
-   appendChild(tableHeader, dataTable);
 
    // create a table body element to contain all the protein rows
    var tableBody = document.createElement("tbody");
-
    // iterate over proteins list and display the protein id and a button
    data.forEach(protein => {
       // create a row element with the protein id
       var row = createTableRow(false, [{ content: protein.protein_id }]);
 
-      // create the detail button
-      var button = document.createElement("button");
-      // add bootstrap4 classes to style the button
-      button.classList.add("btn", "btn-light", "w-75", "mb-2");
-      // add the text content of the button
-      button.textContent = "detials";
-      // handle button click
-      button.onclick = function () {
-         Protein(protein.protein_id);
-      };
+      var tableData = document.createElement("td");
 
+      // create the detail button
+      var detailButton = Button("details", true, function () {
+         Protein(protein.protein_id);
+      });
+
+      appendChild(detailButton, tableData);
       // add the button to the second column of the row
-      appendChild(button, row);
+      appendChild(tableData, row);
       // add the row to the table body
       appendChild(row, tableBody);
    });
 
-   // add table body to the table
-   appendChild(tableBody, dataTable);
-
-   // style the protein list table with bootstrap4 classes
-   dataTable.classList.add(
-      "table",
-      "table-dark",
-      "table-striped",
-      "table-bordered",
-      "table-hover",
-      "table-responsive-sm"
-   );
+   var proteinList = createTable(tableHeader, tableBody);
 
    // append the protein list table to the root div
-   appendChild(dataTable, rootElement);
+   appendToRoot(proteinList);
 }
 
 /**
@@ -234,19 +169,17 @@ function DisplayProteinList(data, error) {
  * @param {Object} taxonomy taxonomy to which the pfams are related to
  */
 function TaxonomyPfams(taxonomy) {
-   // get the root element
-   var rootElement = document.getElementById("root");
    // clear the content of the root element if there is any
-   if (rootElement.innerHTML !== "") rootElement.innerHTML = "";
+   clearRoot();
 
    // create title for the page
-   var title = setUpTitle("h2", ["text-center"], "Pfams");
+   var title = setUpTitle("h2", "Pfams");
    // add title to the page
-   appendChild(title, rootElement);
+   appendToRoot(title);
 
    // display taxonomy data through a table
    var taxonomyTable = createTaxonomyTable(taxonomy);
-   appendChild(taxonomyTable, rootElement);
+   appendToRoot(taxonomyTable);
 
    // a div to hold all the buttons
    var buttonDiv = document.createElement("div");
@@ -259,25 +192,19 @@ function TaxonomyPfams(taxonomy) {
    );
 
    // a button to fetch all proteins of the taxonomy
-   var proteinButton = document.createElement("button");
-   proteinButton.classList.add("btn", "btn-dark", "w-75", "mb-2");
-   proteinButton.textContent = "Show all taxonomy proteins";
-   proteinButton.onclick = function () {
+   var proteinButton = Button("Show all taxonomy proteins", false, function () {
       TaxonomyProteins(taxonomy);
-   };
+   });
    appendChild(proteinButton, buttonDiv);
 
    // a button to fetch all pfams of the taxonomy
-   var pfamButton = document.createElement("button");
-   pfamButton.classList.add("btn", "btn-dark", "w-75");
-   pfamButton.textContent = "Show all taxonomy pfams";
-   pfamButton.onclick = function () {
+   var pfamButton = Button("Show all taxonomy pfams", false, function () {
       TaxonomyPfams(taxonomy);
-   };
+   });
    appendChild(pfamButton, buttonDiv);
 
    // add the div to the root element
-   appendChild(buttonDiv, rootElement);
+   appendToRoot(buttonDiv);
 
    // url from which the pfams are to be fetched
    var url = "/api/pfams/" + taxonomy.taxa_id;
@@ -291,15 +218,13 @@ function TaxonomyPfams(taxonomy) {
  * @param {String} id protein id string
  */
 function Protein(id) {
-   // get the root element
-   var rootElement = document.getElementById("root");
    // clear the content of the root element if there is any
-   if (rootElement.innerHTML !== "") rootElement.innerHTML = "";
+   clearRoot();
 
    // create title for the page
-   var title = setUpTitle("h2", ["text-center"], "Protein Details");
+   var title = setUpTitle("h2", "Protein Details");
    // add title to the page
-   appendChild(title, rootElement);
+   appendToRoot(title);
 
    // url to fetch protein details from
    var url = "/api/protein/" + id;
@@ -312,17 +237,12 @@ function Protein(id) {
  * @param {Object} data Protein data to be displayed on the screen
  */
 function DisplayProteinDetails(data, error) {
-   // root element where everything is to be rendered
-   var root = document.getElementById("root");
-
    // handle an error if any occured
    if (error !== null) {
-      appendChild(handleError(error), rootElement);
+      appendToRoot(handleError(error));
       return;
    }
 
-   // create table to display protein data
-   var table = document.createElement("table");
    // create table body to append the data
    var tableBody = document.createElement("tbody");
 
@@ -391,22 +311,10 @@ function DisplayProteinDetails(data, error) {
       appendChild(row, tableBody);
    });
 
-   // append the table body to the table
-   appendChild(tableBody, table);
-
-   // add list of bootstap4 classes to the table
-   table.classList.add(
-      "table",
-      "table-light",
-      "table-striped",
-      "table-bordered",
-      "table-hover",
-      "table-responsive-sm",
-      "mt-2"
-   );
+   var proteinDetails = createTable(null, tableBody);
 
    // append the protein details table to the root div
-   appendChild(table, root);
+   appendToRoot(proteinDetails);
 
    // create a div as a container for the protein sequence
    var sequenceDiv = document.createElement("div");
@@ -416,8 +324,7 @@ function DisplayProteinDetails(data, error) {
 
    // create a title to describe the content of the div
    // and add this is the container div
-   var sequenceLabel = document.createElement("h5");
-   sequenceLabel.textContent = "Protein sequence";
+   var sequenceLabel = setUpTitle("h2", "Protein sequence");
    appendChild(sequenceLabel, sequenceDiv);
 
    // create an paragraph element to contain the
@@ -431,7 +338,12 @@ function DisplayProteinDetails(data, error) {
    appendChild(sequence, sequenceDiv);
 
    // add the container div to the root div
-   appendChild(sequenceDiv, root);
+   appendToRoot(sequenceDiv);
+
+   // url to fetch protein coverage from
+   var url = "/api/coverage/" + data.protein_id;
+   // fetch details
+   fetch_data(url, DisplayProteinCoverage);
 }
 
 /**
@@ -441,18 +353,11 @@ function DisplayProteinDetails(data, error) {
  * @returns Nothing
  */
 function PfamsList(data, error) {
-   console.log(data);
-   // root element where everything is to be rendered
-   var root = document.getElementById("root");
-
    // handle an error if any occured
    if (error !== null) {
-      appendChild(handleError(error), root);
+      appendToRoot(handleError(error));
       return;
    }
-
-   // table to display list of pfams
-   var pfamTable = document.createElement("table");
 
    // header for pfam list table
    var pfamHeader = document.createElement("thead");
@@ -462,7 +367,6 @@ function PfamsList(data, error) {
 
    // append the row to the header and the header to the table
    appendChild(row, pfamHeader);
-   appendChild(pfamHeader, pfamTable);
 
    // body for the pfam list table
    var pfamBody = document.createElement("tbody");
@@ -473,41 +377,118 @@ function PfamsList(data, error) {
       var pfamRow = createTableRow(false, [{ content: obj.pfam.domain_id }]);
 
       // a pfam detail button
-      var detailButton = document.createElement("button");
-      // styling detail button with bootstrap4 classew
-      detailButton.classList.add("btn", "btn-secondary");
-      // adding content to the detail button
-      detailButton.textContent = "pfam details";
-      // handle detail button click event
-      detailButton.onclick(function () {
-         pfamDetails(obj.id);
+      var detailButton = Button("pfam details", true, function () {
+         getPfamDetails(obj.pfam.domain_id);
       });
 
       // create a table data to store the detail button
       var tableData = document.createElement("td");
-
       // append the button to the table data
       appendChild(detailButton, tableData);
+
       // adding the table data to the row
       appendChild(tableData, pfamRow);
       // add pfam to the table body
       appendChild(pfamRow, pfamBody);
    });
 
-   // append the body to the pfam list table
-   appendChild(pfamBody, pfamTable);
-
-   // style the table with bootstrap4 classes
-   pfamTable.classList.add(
-      "table",
-      "table-light",
-      "table-striped",
-      "table-bordered",
-      "table-hover",
-      "table-responsive-sm",
-      "mt-2"
-   );
+   // create a table to display pfam data
+   var pfamTable = createTable(pfamHeader, pfamBody);
 
    // append the table to the root element
-   appendChild(pfamTable, root);
+   appendToRoot(pfamTable);
+}
+
+/**
+ * function that makes a request to the api to fetch details about a pfam
+ * @param {String} id domain id of the pfam
+ * @returns Nothing
+ */
+function getPfamDetails(id) {
+   // clear all the elements of the root element
+   clearRoot();
+
+   // set a title to show what page is it
+   var title = setUpTitle("h2", "Pfam details");
+   // append the child to the root element
+   appendToRoot(title, root);
+
+   // url to fetch the data from api
+   var url = "/api/pfam/" + id;
+   // fetch data and display them
+   fetch_data(url, showPfamDetails);
+}
+
+/**
+ * function that displays details of a pfam as a table
+ * @param {Object} data data recieved from the api
+ * @param {Object} error error occured while fetching data
+ * @returns Nothing
+ */
+function showPfamDetails(data, error) {
+   // handle error if any occurs
+   if (error !== null) {
+      appendToRoot(handleError(error));
+      return;
+   }
+
+   // create a header for the pfam detail table
+   var tableHeader = document.createElement("thead");
+   // create a header row for the pfam detail table header
+   var headerRow = createTableRow(true, [
+      { content: "domain id" },
+      { content: "domain description" },
+   ]);
+   // add header row to the pfam detail table header
+   appendChild(headerRow, tableHeader);
+
+   // create a body for the pfam detail table
+   var tableBody = document.createElement("tbody");
+
+   // create a row for the data
+   var dataRow = createTableRow(false, [
+      { content: data.domain_id },
+      { content: data.domain_description },
+   ]);
+   // add data row to the details table
+   appendChild(dataRow, tableBody);
+
+   // create a table to display pfam details
+   var pfamDetailsTable = createTable(tableHeader, tableBody);
+
+   // append the pfam detail table to the root element
+   appendToRoot(pfamDetailsTable);
+}
+
+/**
+ * function that displays the coverage of the protein
+ * @param {Object} data data retreived from the api
+ * @param {Object} error error occured during the retreival of data
+ * @returns Nothing
+ */
+function DisplayProteinCoverage(data, error) {
+   // handle errors if any occues
+   if (error !== null) {
+      appendToRoot(handleError(error));
+      return;
+   }
+
+   // create div that contains the coverage of the protein and details
+   var coverageDiv = document.createElement("div");
+   // set up a title and add it to the coverage div
+   appendChild(setUpTitle("h2", "Protein coverage"), coverageDiv);
+   // style coverage div with bootstrap4 class
+   coverageDiv.classList.add("container");
+
+   // create a paragraph element containing the coverage details
+   var coverage = document.createElement("p");
+   // set the paragraph content to the coverage details
+   coverage.textContent = "Protein Coverage = " + data.coverage;
+   // style paragraph with bootstrap4 class names
+   coverage.classList.add("text-center");
+
+   // add the coverage paragraph to the coverage container
+   appendChild(coverage, coverageDiv);
+   // add coverage container div to the root
+   appendToRoot(coverageDiv);
 }

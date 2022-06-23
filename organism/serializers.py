@@ -18,7 +18,7 @@ class TaxonomySerializer(serializers.ModelSerializer):
       model = Taxonomy
       fields = '__all__'
 
-class ProteinDetialSerializer(serializers.ModelSerializer):
+class ProteinSerializer(serializers.ModelSerializer):
    domains = DomainSerializer(many=True)
    taxonomy = TaxonomySerializer(many=True)
    class Meta:
@@ -40,7 +40,7 @@ class ProteinDetialSerializer(serializers.ModelSerializer):
       for tax in taxonmy_data:
          pro.taxonomy.add(Taxonomy.objects.get(id=tax['id']))
       
-      for domain in taxonmy_data:
+      for domain in domains_data:
          pro.domains.add(Domain.objects.get(id=domain['id']))
 
       return pro

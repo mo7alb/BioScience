@@ -7,8 +7,15 @@ urlpatterns= [
    # displays a single page application
    path('', views.index, name="index"),
 
-   # api paths
-   # route to add a new protein and to return details of a protein
+   # api routes
+   # route to add a new protein 
+   path (
+      'api/protein',
+      api.new_protein,
+      name="new_proteins"
+   ),
+
+   # route  to return details of a protein
    path(
       'api/protein/<str:protein_id>', 
       api.ProteinDetail.as_view(), 

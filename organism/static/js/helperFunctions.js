@@ -10,17 +10,14 @@ function appendChild(child, parent) {
 /**
  * A function that simplifies creating a title
  * @param {String} type Type of html element
- * @param {Array} classes Array of string with each string representing a list to be added to html element
  * @param {String} content Content of the title element
  * @returns the HTML element created
  */
-function setUpTitle(type, classes, content) {
+function setUpTitle(type, content) {
    // create a new element
    const element = document.createElement(type);
-   // add all element relaed class
-   classes.forEach(c => {
-      element.classList.add(c);
-   });
+   // style elemenet by adding bootstrap4 class
+   element.classList.add("text-center");
    // add the content to the element
    element.textContent = content;
 
@@ -174,4 +171,86 @@ function handleError(error) {
 
    // return the wrapper div element
    return errorElement;
+}
+
+/**
+ * function that adds an element to the root element
+ * @param {Element} child child element to be added to the root element
+ * @returns Nothing
+ */
+function appendToRoot(child) {
+   // root element to which the child element is to be appended
+   var root = document.getElementById("root");
+
+   // append child to root
+   root.append(child);
+}
+
+/**
+ * function to clean up the content of the root element
+ * @returns Nothing
+ */
+function clearRoot() {
+   // root element which is to be cleaned up
+   var root = document.getElementById("root");
+   // clean up content of the root element
+   root.innerHTML = "";
+}
+
+/**
+ * function to clear and set up a table element
+ * pass null to header if table has no header
+ * @param {Element} header table header
+ * @param {Element} Body table body
+ * @returns HTML table element
+ */
+function createTable(header, body) {
+   // table element to be returned
+   var table = document.createElement("table");
+
+   //check if header is null
+   if (header !== null) {
+      // add the header to the table if it is not null
+      appendChild(header, table);
+   }
+
+   // add the body to the table
+   appendChild(body, table);
+
+   // style the table with bootstrap
+   table.classList.add(
+      "table",
+      "table-dark",
+      "table-striped",
+      "table-bordered",
+      "table-hover",
+      "table-responsive-sm"
+   );
+
+   // return the table
+   return table;
+}
+
+/**
+ * A function that simplifies creating a button
+ * @param {String} content content of the button
+ * @param {function} onClick function that is executed when the button is clicked
+ * @returns HTML button elemenet
+ */
+function Button(content, light, onClick) {
+   // create button element
+   var buttonElement = document.createElement("button");
+   // style the button element with bootstrap4 classes
+   buttonElement.classList.add(
+      "btn",
+      "w-75",
+      "mb-2",
+      light == true ? "btn-light" : "btn-dark"
+   );
+   // set the content of the button
+   buttonElement.textContent = content;
+   // set up button click element by calling the callback function
+   buttonElement.onclick = onClick;
+   // return the button element created
+   return buttonElement;
 }
