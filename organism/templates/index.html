@@ -88,6 +88,43 @@
                         {% endfor %}
                      </tbody>
                   </table>
+
+                  <div class="row mb-4">
+                     <div class="col-md-5">
+                        {% if taxonomy.has_previous %}
+                        <a class="btn btn-secondary" href="?page=1"
+                           >First Page</a
+                        >
+                        <a
+                           class="btn btn-secondary"
+                           href="?page={{ taxonomy.previous_page_number }}"
+                        >
+                           Previous
+                        </a>
+                        {% endif %}
+                     </div>
+                     <div class="col-md-3">
+                        <!-- prettier-ignore -->
+                        <p>
+                           Page {{ taxonomy.number }} of {{ taxonomy.paginator.num_pages }}
+                        </p>
+                     </div>
+                     <div class="col-sm-4">
+                        {% if taxonomy.has_next %}
+                        <a
+                           class="btn btn-secondary"
+                           href="?page={{ taxonomy.next_page_number }}"
+                           >Next</a
+                        >
+                        <a
+                           class="btn btn-secondary"
+                           href="?page={{ taxonomy.paginator.num_pages }}"
+                        >
+                           Last page
+                        </a>
+                        {% endif %}
+                     </div>
+                  </div>
                </div>
                <div id="root" class="align-middle col-md-6 mt-3"></div>
             </div>

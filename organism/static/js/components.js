@@ -220,6 +220,10 @@ function Protein(id) {
    request.send();
 }
 
+/**
+ * A function to display a Protein Details in a table
+ * @param {Object} data Protein data to be displayed on the screen
+ */
 function DisplayProteinDetails(data) {
    console.log(data);
    var table = document.createElement("table");
