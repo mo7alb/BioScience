@@ -1,4 +1,6 @@
-{% load static %} {% load bootstrap4 %}
+<!-- prettier-ignore -->
+{% load static %}
+{% load bootstrap4 %}
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -7,11 +9,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Bioscience</title>
       <link rel="stylesheet" href="../static/css/global.css" />
-      {% bootstrap_css %} {% bootstrap_javascript jquery='full' %}
-
-      <script src="../static/js/helperFunctions.js"></script>
-      <script src="../static/js/components.js"></script>
-      <script src="../static/js/spa.js"></script>
+      <!-- prettier-ignore -->
+      {% bootstrap_css %} 
+      {% bootstrap_javascript jquery='full' %}
+      <script src="{% static 'js/helperFunctions.js' %}?v=00001"></script>
+      <script src="{% static 'js/components.js' %}?v=00001"></script>
+      <script src="{% static 'js/index.js' %}?v=00001"></script>
    </head>
    <body onload="Home()">
       <section class="">

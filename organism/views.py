@@ -3,7 +3,8 @@ from .models import Taxonomy
 from django.core.paginator import Paginator
 
 def index(request):
-   paginator = Paginator(Taxonomy.objects.all(), 50)
+   taxonomy_list = Taxonomy.objects.all().order_by('taxa_id')
+   paginator = Paginator(taxonomy_list, 50)
    
    page = request.GET.get('page')
    taxonomy = paginator.get_page(page)

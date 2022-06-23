@@ -40,6 +40,13 @@ function Pfams() {
    appendChild(title, rootElement);
 }
 
+/**
+ * a function to display the data of the taxonomy
+ * @param {Number} taxa_id
+ * @param {String} clade
+ * @param {String} genus
+ * @param {String} species
+ */
 function ShowTaxonomy(taxa_id, clade, genus, species) {
    // get the root element
    var rootElement = document.getElementById("root");
@@ -57,7 +64,12 @@ function ShowTaxonomy(taxa_id, clade, genus, species) {
 
    // a div to hold all the buttons
    var buttonDiv = document.createElement("div");
-   buttonDiv.classList.add("d-flex", "justify-content-center", "flex-column");
+   buttonDiv.classList.add(
+      "d-flex",
+      "justify-content-center",
+      "flex-column",
+      "align-items-center"
+   );
 
    // a button to fetch all proteins of the taxonomy
    var proteinButton = document.createElement("button");
@@ -81,6 +93,10 @@ function ShowTaxonomy(taxa_id, clade, genus, species) {
    appendChild(buttonDiv, rootElement);
 }
 
+/**
+ * A function Proteins related to a taxonomy
+ * @param {Object} taxonomy Taxomony of which the data is to be displayed
+ */
 function TaxonomyProteins(taxonomy) {
    // get the root element
    var rootElement = document.getElementById("root");
@@ -94,7 +110,7 @@ function TaxonomyProteins(taxonomy) {
 
    // display taxonomy data through a table
    var taxonomyTable = createTaxonomyTable({
-      taxa_id: taxonomy.taxa_id,
+      taxa_id: "terst",
       clade: taxonomy.clade,
       genus: taxonomy.genus,
       species: taxonomy.species,
@@ -131,6 +147,11 @@ function TaxonomyProteins(taxonomy) {
    request.send();
 }
 
+/**
+ * A function called after requesting for protein data
+ * this data is in the form of a list
+ * @param {Objet} data protein data to be displayed
+ */
 function DisplayProteinList(data) {
    var rootElement = document.getElementById("root");
    var dataTable = document.createElement("table");
@@ -169,6 +190,10 @@ function DisplayProteinList(data) {
    appendChild(dataTable, rootElement);
 }
 
+/**
+ * Displays details of pfams on the screen based on the taxonomy passed
+ * @param {Object} taxonomy taxonomy to which the pfams are related to
+ */
 function TaxonomyPfams(taxonomy) {
    // get the root element
    var rootElement = document.getElementById("root");
@@ -185,6 +210,10 @@ function TaxonomyPfams(taxonomy) {
    appendChild(taxonomyTable, rootElement);
 }
 
+/**
+ * A function that requests details from the api for a single protein
+ * @param {String} id protein id string
+ */
 function Protein(id) {
    // get the root element
    var rootElement = document.getElementById("root");
@@ -225,7 +254,6 @@ function Protein(id) {
  * @param {Object} data Protein data to be displayed on the screen
  */
 function DisplayProteinDetails(data) {
-   console.log(data);
    var table = document.createElement("table");
 
    var tableBody = document.createElement("tbody");

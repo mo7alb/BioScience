@@ -1,3 +1,8 @@
+/**
+ * A function that appends a child to its parent
+ * @param {Element} child the child to be appended in the parent element
+ * @param {Element} parent the parent element
+ */
 function appendChild(child, parent) {
    parent.append(child);
 }
