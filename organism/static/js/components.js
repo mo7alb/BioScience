@@ -1,3 +1,5 @@
+console.log("component js file");
+
 /**
  * Displays content of the home page
  * @returns {void} Nothing
@@ -10,6 +12,21 @@ function Home() {
    var title = setUpTitle("h2", "Home page");
    // add title to the page
    appendToRoot(title);
+
+   // create a div to display the new protein form
+   var contentDiv = document.createElement("div");
+
+   // create a variable to store the innerHTML of the contentDiv
+   var content = '<form method="post">\n';
+   content += "{% csrf_token %}\n";
+   content += "{{ form.as_p }}\n";
+   content += '<input type="submit" value="update">\n';
+   content += "</form>\n";
+
+   // set the innerhtml of contentdiv to content
+   contentDiv.innerHTML = content;
+
+   appendToRoot(contentDiv);
 }
 
 /**

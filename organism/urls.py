@@ -6,6 +6,8 @@ urlpatterns= [
    # root url
    # displays a single page application
    path('', views.index, name="index"),
+   # route that displays a form to add a new protein
+   path('new', views.new_protein, name="new_protein"),
 
    # api routes
    # route to add a new protein 

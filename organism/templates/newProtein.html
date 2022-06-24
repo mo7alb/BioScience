@@ -1,0 +1,16 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+
+{% block head %}
+<title>New Protein</title>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block content %}
+<div class="container">
+   <form method="post" class="form">
+      {% csrf_token %} {{ form.as_p }}
+      <input type="submit" value="Add" />
+   </form>
+</div>
+{% endblock %}

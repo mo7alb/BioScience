@@ -1,0 +1,60 @@
+{% load static %} {% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="../static/css/global.css" />
+
+      <script src="{% static 'js/helperFunctions.js' %}?v=00001"></script>
+      <script src="{% static 'js/components.js' %}?v=00001"></script>
+      <script src="{% static 'js/index.js' %}?v=00001"></script>
+
+      <!-- prettier-ignore -->
+      {% bootstrap_css %} 
+      {% bootstrap_javascript jquery='full' %}
+      {% block head %} {% endblock %}
+   </head>
+   <body onload="Home()">
+      <section>
+         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="container">
+               <div class="row align-items-start">
+                  <a class="navbar-brand h1 mb-0" href="/">BioScience</a>
+               </div>
+
+               <div class="row align-items-end">
+                  <button
+                     class="navbar-toggler"
+                     type="button"
+                     data-toggle="collapse"
+                     data-target="#navbarSupportedContent"
+                     aria-controls="navbarSupportedContent"
+                     aria-expanded="false"
+                     aria-label="Toggle navigation"
+                  >
+                     <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div
+                     class="collapse navbar-collapse"
+                     id="navbarSupportedContent"
+                  >
+                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item col">
+                           <a href="/" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item col">
+                           <a href="/new" class="nav-link text-nowrap"
+                              >New Protein</a
+                           >
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </nav>
+      </section>
+      <main>{% block content %} {% endblock %}</main>
+   </body>
+</html>
