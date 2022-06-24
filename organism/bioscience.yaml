@@ -1,0 +1,181 @@
+# prettier-ignore
+openapi: 3.1.0
+
+info:
+  title: Bioscience API
+  description: RESTful API for bioscience researchers
+  version: 1.0.0
+
+servers:
+  - url: "https://localhost:8000"
+    description: API testing server
+
+tags:
+  - name: pfam
+    description: list of pfams and pfam detials
+  - name: protein
+    description: list of proteins and protein details
+  - name: coverage
+    description: determines the coverage of a protein
+
+paths:
+  /api/protein:
+    post:
+      summary: Adds a new protein to the database
+      tags:
+        - protein
+      responses:
+        "201":
+          description: Successful added the new protein to the database
+        "400":
+          description: Request with invalid data
+      content:
+        application/json:
+          schema:
+            #ref: '#/components/schemas/Protein'
+
+  /api/protein/{protein_id}:
+    get:
+      summary: Returns a protein
+      tags:
+        - protein
+      responses:
+        "200":
+          description: Successful return of protein to client
+        "404":
+          description: Protein does not exists
+      content:
+        application/json:
+          schema:
+            #ref: '#/components/schemas/Protein'
+
+  /api/pfam/{pfam_id}:
+    get:
+      summary: Returns a pfam
+      tag:
+        - pfam
+      responses:
+        "200":
+          description: Successful return of pfam to client
+        "404":
+          description: Pfam does not exists
+      content:
+        application/json:
+          schema:
+            #ref: '#/components/schemas/Pfam'
+
+  /api/proteins/{taxa_id}:
+    get:
+      summary: Returns list of proteins related to an organism
+      tags: 
+        - protein
+      responses:
+        "200":
+          description: Successful return of protein list to client
+        "404":
+          description: Protein does not exists
+      content:
+        application/json:
+          schema:
+            #ref: '#/components/schemas/Proteins'
+
+  /api/pfams/{taxa_id}:
+    get:
+      summary: Returns list of pfams related to an organism
+      tags:
+        - pfam
+      responses:
+        "200":
+          description: Successful return of pfam list to client
+        "404":
+          description: Pfam does not exists
+      content:
+        application/json:
+          schema:
+            #ref: '#/components/schemas/Pfams'
+  
+  /api/coverage/{protein_id}:
+    get:
+      summary: Returns the coverage of a single protein
+      tags:
+        - protein
+        - coverage
+      responses:
+        "200":
+          description: Successful return of pfam list to client
+        "404":
+          description: Pfam does not exists
+      content:
+        application/json:
+          schema:
+            #ref: '#/components/schemas/Coverage'
+
+components:
+  schemas:
+    Protein:
+      type: object
+      properties:
+        protein_id:
+          type: string
+        sequence:
+          type: string
+        length:
+          type: integer
+        domains:
+          type: array
+        taxonomy:
+          type: object
+      required:
+        - protein_id
+        - sequence
+        - length
+      example:
+        protein_id: A0A016S8J7
+        sequence: MVIGVGFLLVLFSSSVLGILNAGVQLRIEELFDTPGHTN
+        length: 101
+
+    Proteins:
+      type: array
+      
+      properties:
+        id:
+          type: integer
+        protein_id:
+          type: string
+        
+      example: [{ id: 88770, protein_id: A0A016S8J7 }]
+    
+    Coverage:
+      properties:
+        coverage:
+          type: float 
+      example: 
+        coverage: 0.693069306930693
+
+    Pfam:
+      type: object
+      properties:
+        domain_id:
+          type: string
+        domain_description:
+          type: string
+      requried:
+        - domain_id
+        - domain_description
+      example: 
+        domain_id: PF01650
+        domain_description: PeptidaseC13family
+    
+    Pfams:
+      type: array
+      properties:
+        id:
+          type: integer
+        pfam:
+          type: object
+          properties:
+            domain_id:
+              type: string
+            domain_description:
+              type: string
+      example: [{ id: 88766, pfam: { domain_id: PF00415, domain_description: Regulatorofchromosomecondensation(RCC1)repeat } }]
