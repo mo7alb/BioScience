@@ -1,83 +1,48 @@
-<!-- prettier-ignore -->
-{% extends 'base.html' %}
-      
-{% block head %}
+{% extends 'base.html' %} {% block head %}
 <title>BioScience</title>
-{% endblock %}
+{% endblock %} {% block content %}
+<body onload="Home()">
+   <div class="h-100 w-100">
+      <div class="row">
+         <div class="col-md-5">
+            {% include 'components/taxonomyTable.html' %}
 
-<!-- main content of the file -->
-{% block content %}
-<div class="h-100 w-100">
-   <div class="row">
-      <div class="col-md-5">
-         <table
-            class="table table-dark table-striped table-bordered table-hover table-responsive-sm mt-2 mx-2"
-         >
-            <thead class="thead-light">
-               <tr class="text-center">
-                  <th>Taxa id</th>
-                  <th>Clade</th>
-                  <th>Genus</th>
-                  <th>Species</th>
-                  <th></th>
-               </tr>
-            </thead>
-            <tbody>
-               {% for tax in taxonomy %}
-               <tr class="text-center">
-                  <td>{{ tax.taxa_id }}</td>
-                  <td>{{ tax.clade }}</td>
-                  <td>{{ tax.genus }}</td>
-                  <td>{{ tax.species }}</td>
-                  <td>
-                     <a
-                        onclick="ShowTaxonomy('{{ tax.taxa_id }}', '{{ tax.clade }}', '{{ tax.genus }}', '{{ tax.species }}')"
-                        class="btn btn-light"
-                     >
-                        details
-                     </a>
-                  </td>
-               </tr>
-               {% endfor %}
-            </tbody>
-         </table>
-
-         <div class="row mb-4">
-            <div class="col-md-5">
-               {% if taxonomy.has_previous %}
-               <a class="btn btn-secondary" href="?page=1">First Page</a>
-               <a
-                  class="btn btn-secondary"
-                  href="?page={{ taxonomy.previous_page_number }}"
-               >
-                  Previous
-               </a>
-               {% endif %}
-            </div>
-            <div class="col-md-3">
-               <!-- prettier-ignore -->
-               <p>
+            <div class="row mb-4">
+               <div class="col-md-5">
+                  {% if taxonomy.has_previous %}
+                  <a class="btn btn-secondary" href="?page=1">First Page</a>
+                  <a
+                     class="btn btn-secondary"
+                     href="?page={{ taxonomy.previous_page_number }}"
+                  >
+                     Previous
+                  </a>
+                  {% endif %}
+               </div>
+               <div class="col-md-3">
+                  <!-- prettier-ignore -->
+                  <p>
                            Page {{ taxonomy.number }} of {{ taxonomy.paginator.num_pages }}
                         </p>
-            </div>
-            <div class="col-sm-4">
-               {% if taxonomy.has_next %}
-               <a
-                  class="btn btn-secondary"
-                  href="?page={{ taxonomy.next_page_number }}"
-                  >Next</a
-               >
-               <a
-                  class="btn btn-secondary"
-                  href="?page={{ taxonomy.paginator.num_pages }}"
-               >
-                  Last page
-               </a>
-               {% endif %}
+               </div>
+               <div class="col-sm-4">
+                  {% if taxonomy.has_next %}
+                  <a
+                     class="btn btn-secondary"
+                     href="?page={{ taxonomy.next_page_number }}"
+                     >Next</a
+                  >
+                  <a
+                     class="btn btn-secondary"
+                     href="?page={{ taxonomy.paginator.num_pages }}"
+                  >
+                     Last page
+                  </a>
+                  {% endif %}
+               </div>
             </div>
          </div>
+         <div id="root" class="align-middle col-md-6 mt-3"></div>
       </div>
-      <div id="root" class="align-middle col-md-6 mt-3"></div>
    </div>
-</div>
-{% endblock %}
+   {% endblock %}

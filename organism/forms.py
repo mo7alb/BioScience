@@ -8,4 +8,4 @@ class ProteinForm(ModelForm):
     """
     class Meta:
         model = Protein
-        fields = ['protein_id', 'sequence', 'length']
+        fields = ['protein_id', 'sequence', 'length', 'taxonomy', 'domains']

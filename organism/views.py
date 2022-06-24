@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from .models import Taxonomy
 from django.core.paginator import Paginator
+from django.http import HttpResponse
+from .models import Taxonomy, Protein
 from .forms import ProteinForm
 
 def index(request) -> render:
@@ -33,7 +34,10 @@ def new_protein(request) -> render:
       form = ProteinForm(request.POST)
 
       if form.is_valid():
-         
+         # check if any protein with the same id exists
+         if Protein.objects.all().filter(protein_id=form.cleaned_data['protein_id']).exists():
+            return HttpResponse("Protein already exists with same protein id. try using another protein id")
+         # save the protein from the form
          form.save()
 
    # if the request is a GET request

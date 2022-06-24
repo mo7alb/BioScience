@@ -1,5 +1,3 @@
-console.log("component js file");
-
 /**
  * Displays content of the home page
  * @returns {void} Nothing
@@ -17,11 +15,8 @@ function Home() {
    var contentDiv = document.createElement("div");
 
    // create a variable to store the innerHTML of the contentDiv
-   var content = '<form method="post">\n';
-   content += "{% csrf_token %}\n";
-   content += "{{ form.as_p }}\n";
-   content += '<input type="submit" value="update">\n';
-   content += "</form>\n";
+   var content =
+      '<p class="no-wrap text-monospace text-center mt-5">Select an organism to get its data</p>';
 
    // set the innerhtml of contentdiv to content
    contentDiv.innerHTML = content;
