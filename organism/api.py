@@ -41,6 +41,7 @@ class ProteinDetail(GenericAPIView):
    def get(self, request, protein_id, format="json") -> Response:
       # get the protein from the query set
       protein = self.get_object(protein_id)
+      print (protein)
       # serialize it to be returned to the client
       serializer = ProteinSerializer(protein)
       # return the serialized data within a response

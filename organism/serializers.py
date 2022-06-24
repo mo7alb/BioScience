@@ -41,7 +41,7 @@ class ProteinSerializer(serializers.ModelSerializer):
          pro.taxonomy.add(Taxonomy.objects.get(id=tax['id']))
       
       for domain in domains_data:
-         pro.domains.add(Domain.objects.get(id=domain['id']))
+         pro.domains.add(Domain.objects.get(domain_id=domain['id']))
 
       return pro
 

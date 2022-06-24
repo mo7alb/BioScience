@@ -1,5 +1,6 @@
 <!-- prettier-ignore -->
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block head %}
 <title>New Protein</title>
@@ -9,8 +10,8 @@
 {% block content %}
 <div class="container">
    <form method="post" class="form">
-      {% csrf_token %} {{ form.as_p }}
-      <input type="submit" value="Add" />
+      {% csrf_token %} {{ form | crispy }}
+      <input type="submit" value="Add" class="btn btn-secondary my-2" />
    </form>
 </div>
 {% endblock %}
