@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from . import api
 
-urlpatterns= [
+urlpatterns = [
    # root url
    # displays a single page application
    path('', views.index, name="index"),
@@ -14,7 +14,7 @@ urlpatterns= [
    path (
       'api/protein',
       api.new_protein,
-      name="new_proteins"
+      name="new_protein"
    ),
 
    # route  to return details of a protein
@@ -49,6 +49,6 @@ urlpatterns= [
    path(
       'api/coverage/<str:protein_id>', 
       api.Coverage.as_view(), 
-      name="domain_coverage"
+      name="protein_coverage"
    )
 ]

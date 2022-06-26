@@ -113,7 +113,11 @@ class ProteinList(GenericAPIView):
 
    def get(self, request, taxa_id, format="json") -> Response:
       # get the organism
-      tax = Taxonomy.objects.get(taxa_id=taxa_id)
+      # if it doesn't exist throw a 404 error
+      try: 
+         tax = Taxonomy.objects.get(taxa_id=taxa_id)
+      except Taxonomy.DoesNotExist :
+         return Response(status=status.HTTP_404_NOT_FOUND)
 
       # get all the relations between the organism and proteins
       relationList = ProteinTaxonomyLink.objects.filter(taxonomy=tax)
@@ -152,7 +156,7 @@ class PfamList (GenericAPIView):
    queryset = Domain.objects.all()
    serializer_class = PfamListSerializer
 
-   def get_object(self, pk):
+   def get_object(self, pk) -> Response | Domain:
       # try to retrieve a pfam with pk as id
       try:
          return self.queryset.get(id=pk)
@@ -160,9 +164,13 @@ class PfamList (GenericAPIView):
       except Pfam.DoesNotExist:
          return Response(status=status.HTTP_404_NOT_FOUND)
 
-   def get(self, request, taxa_id, format="json"):
+   def get(self, request, taxa_id, format="json") -> Response:
       # organism which is related to all pfams
-      tax = Taxonomy.objects.get(taxa_id=taxa_id)
+      # if organism doesn't exist throw a 404 error
+      try:
+         tax = Taxonomy.objects.get(taxa_id=taxa_id)
+      except Taxonomy.DoesNotExist:
+         return Response(status=status.HTTP_404_NOT_FOUND)
 
       # list of relations between the organism and proteins 
       relationList = ProteinTaxonomyLink.objects.filter(taxonomy=tax)
