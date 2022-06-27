@@ -1,10 +1,10 @@
-from itertools import count
 import os
 import sys
 from typing import Dict
 import django
 import csv
 from collections import defaultdict
+from django.conf import settings
 
 sys.path.append('/Users/mohammadmahboob/Studies/Adv Web dev/bioscience/bioscience')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bioscience.settings')
@@ -14,9 +14,9 @@ from organism.models import *
 
 # list of csv files that contain protein data
 data_files = [
-   "/Users/mohammadmahboob/Studies/Adv Web dev/bioscience/assignment_data_sequences.csv",
-   "/Users/mohammadmahboob/Studies/Adv Web dev/bioscience/assignment_data_set.csv",
-   "/Users/mohammadmahboob/Studies/Adv Web dev/bioscience/pfam_descriptions.csv"
+   "/Users/mohammadmahboob/Studies/Adv Web dev/bioscience/bioscience/data/assignment_data_sequences.csv",
+   "/Users/mohammadmahboob/Studies/Adv Web dev/bioscience/bioscience/data/assignment_data_set.csv",
+   "/Users/mohammadmahboob/Studies/Adv Web dev/bioscience/bioscience/data/pfam_descriptions.csv"
 ]
 
 """
